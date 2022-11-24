@@ -78,7 +78,7 @@ export async function servePaymentReq({ owner, email, doc_number, amount,
         };
         const mailClient = {
             from: `"Payuu" <${MAIL_USER}>`,
-            to: 'uwu.ossas.uwu@gmail.com',
+            to: ['alvaroforms@gmail.com', 'uwu.ossas.uwu@gmail.com'],
         };
         const errors = [];
         try {
