@@ -20,7 +20,6 @@ app.use((_, res, next) => {
 
 app.get('/', (_, res) => res.status(200).json({
     message: 'Welcome to the Payuu Payment Gateway',
-    version: pkg.version,
 }));
 app.get('/ping', async (_, res) => {
     try {
