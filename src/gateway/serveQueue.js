@@ -160,7 +160,7 @@ export async function servePaymentReq({ owner, email, doc_number, amount,
                 <p><b>Referencia de pago:</b> ${ref_number}</p>
                 ${payment ?
                     `
-                    <p><b>Factura Nro:</b> ${payment.bill_ref_number}</p>
+                    <p><b>Factura Nro:</b> ${payment.ref_number}</p>
                     <p><b>Número de cuotas:</b> ${payment.num_installments}</p>
                     <p><b>Fecha de pago:</b> ${payment.date.toLocaleString()}</p>
                     <p><b>Fecha de pasarela de pago:</b> ${payment.gateway_date.toLocaleString()}</p>
@@ -184,7 +184,7 @@ export async function servePaymentReq({ owner, email, doc_number, amount,
                 <h4>Pago rechazado por ${bank}</h4>
                 <p><b>Motivo</b>: ${json.reason}</p>
                 <p><b>Fecha efectiva:</b> ${effective_date.toLocaleString()}</p>
-                ${payment ? `<p><b>Factura Nro:</b> ${payment.bill_ref_number}</p>` : ''}
+                ${payment ? `<p><b>Factura Nro:</b> ${payment.ref_number}</p>` : ''}
             `;
         }
 
