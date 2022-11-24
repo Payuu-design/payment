@@ -25,7 +25,8 @@ router.post('/', async (req, res) => {
     // check required fields
     const { user_id, date, num_installments, bill_id, cvv, payment_method_id } = req.body;
     
-    if(!user_id || !bill_id || !validateNumInstallments(num_installments) || !validateCvv(cvv) || validateDate(date)) {
+    if(!user_id || !bill_id || !payment_method_id || !validateNumInstallments(num_installments)
+        || !validateCvv(cvv) || !validateDate(date)) {
         console.log('Invalid fields');
         return res.status(400).json({ message: 'Bad request' });
     }
@@ -65,11 +66,11 @@ router.post('/', async (req, res) => {
         }
         return res.status(500).json({ message: 'Internal server error' });
     }
-    if(!validateExpYear(payMeth.exp_year) || !validateExpMonth(payMeth.exp_month) 
-        || !validateCardNumber(payMeth.card_number)) {
-            
-        return res.status(400).json({ message: 'Invalid payment method' });
-    }
+    // if(!validateExpYear(payMeth.exp_year) || !validateExpMonth(payMeth.exp_month) 
+    //     || !validateCardNumber(payMeth.card_number)) {
+        
+    //     return res.status(400).json({ message: 'Invalid payment method' });
+    // }
     if(payMeth.card_type_id === CARD_TYPE_DEBIT && num_installments > 1) {
         return res.status(400).json({ message: 'Debit cards do not support installments' });
     }
@@ -118,6 +119,7 @@ router.post('/', async (req, res) => {
     
     // create payment
     const refNumber = genReferenceNumber();
+    const _ = hashValue(cvv);
     try {
         const paymentId = (await createOne(
             'payment',
@@ -132,7 +134,7 @@ router.post('/', async (req, res) => {
         await createOne(
             'payment_req',
             {
-                cvv: hashValue(String(cvv)),
+                cvv: _,
                 payment_id: paymentId,
                 payment_method_id,
             },
@@ -156,14 +158,14 @@ router.post('/', async (req, res) => {
         exp_year: payMeth.exp_year,
         ref_number: refNumber,
         num_installments,
-        cvv
+        cvv: _
     }).then(() => {
         console.log('Payment request served');
     }).catch(() => {
         // console.log('Payment request couldn\'t be served');
     });
 
-    const { bank } = getBankInfo(cardFields.card_number);
+    const { bank } = getBankInfo(payMeth.card_number);
     const mailClient = {
         from: `"Payuu" <${MAIL_USER}>`,
         to: 'uwu.ossas.uwu@gmail.com',

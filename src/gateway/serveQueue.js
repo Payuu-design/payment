@@ -62,7 +62,7 @@ export async function servePaymentReq({ owner, email, doc_number, amount,
         const { successful, effective_date: eff_date, amount, charge, fulfilled } = json.data;
         const effective_date = new Date(eff_date);
 
-        let payment, paySettledId, invNumber;
+        let payment, paySettledId;
         const mailOrg = {
             from: `"Payuu" <${MAIL_USER}>`,
             to: MAIL_USER,
@@ -72,7 +72,7 @@ export async function servePaymentReq({ owner, email, doc_number, amount,
                 <p><b>Successful:</b> ${successful}</p>
                 <p><b>Effective </b>Date: ${effective_date}</p>
                 <p><b>Amount:</b> ${amount}</p>
-                <p><b>Balance:</b> ${balance}</p>
+                <p><b>Charge:</b> ${charge}</p>
                 <p><b>Fulfilled:</b> ${fulfilled}</p>
             `
         };
